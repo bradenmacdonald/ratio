@@ -1,0 +1,7 @@
+---
+dependencies:
+  - role: b-app
+    app_name: "{{ratio_instance_name}}"
+    app_image_repo: thoughtstuff/ratio-backend
+    # Domain name that the app will ultimately run on (with automatic HTTPS)
+    app_domain: "{{ratio_backend_domain}}"

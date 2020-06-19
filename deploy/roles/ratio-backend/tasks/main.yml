@@ -1,0 +1,23 @@
+---
+# Write environment variables into file
+- name: Configure environment
+  template:
+    src: environ
+    dest: "{{app_environ_file}}"
+    owner: root
+    mode: 600
+# Restart container (pick up env vars)
+- name: Restart {{app_container_name}} container
+  docker_compose:
+    project_src: "{{app_environ_dir}}"
+    state: present
+    restarted: yes
+# Run migrations
+- name: Run migrations
+  command: docker exec {{app_container_name}} npm run migrate up
+# Restart container (pick up migrations)
+- name: Restart {{app_container_name}} container
+  docker_compose:
+    project_src: "{{app_environ_dir}}"
+    state: present
+    restarted: yes

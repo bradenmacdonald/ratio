@@ -1,0 +1,13 @@
+---
+dependencies:
+  - { role: b-common }
+  - { role: b-traefik-load-balancer }
+  # Traefik load balancer must come before the database-common and redis-common
+  # roles, since the Traefik role creates the docker network that the spiped
+  # services then bind to.
+  - role: b-database-common
+    postgres_secure_ip: "{{ traefik_docker_apps_network_host_ip }}"
+  - role: b-redis-common
+    redis_secure_ip: "{{ traefik_docker_apps_network_host_ip }}"
+  - { role: geerlingguy-docker }
+  - { role: b-docker-ansible }

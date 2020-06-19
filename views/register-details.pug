@@ -1,0 +1,20 @@
+extends ./base-simple.pug
+
+block append vars
+  - bodyClasses.push('register-account')
+
+block append content
+  p
+    | Please complete this form to confirm your account details:
+
+  form.simple-form(action="", method="post")
+    div
+      //- ^ This div is just so the input(type="hidden") doesn't trigger CSS 'input' selectors
+      input.ifc(type="text", placeholder="Name or nickname (e.g. Jamie)", aria-label="Name or nickname (e.g. Jamie)", name="short_name", required)
+      input.ifc(type="password", placeholder="New Password", aria-label="New Password", name="password", required, minlength=6)
+
+    input(type="hidden", name="_csrf", value=csrfToken)
+    input(type="hidden", name="code", value=code)
+
+    button.ifc
+      | Create account

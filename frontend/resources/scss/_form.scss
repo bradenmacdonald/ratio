@@ -1,0 +1,26 @@
+.if-responsive-form {
+    width: 100%;
+    max-width: 800px;
+
+    > .if-field {
+
+        width: 400px;
+        max-width: 100%;
+        margin-bottom: 15px;
+
+        > label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: $color-grey-text;
+            padding-left: 5px; // 1px for the control border and 4px for the .ifc control internal left padding
+        }
+
+        > .ifc-radio-group {
+            margin-left: 5px;
+        }
+        //> .ifc {
+            // TBD
+        //}
+    }
+}

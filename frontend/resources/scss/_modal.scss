@@ -1,0 +1,59 @@
+.influx-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.75);
+
+    // Vertically center the modal in the overlay:
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.influx-modal {
+    border: 1px solid #ccc;
+    background: #fff;
+    box-shadow: 8px 8px 25px rgba(0,0,0,0.1);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+
+    max-height: 100vh;
+    max-width: 100vw;
+
+    h1 {
+        background-color: $accent-bg-color;
+        color: $accent-fg-color;
+        margin: -20px -20px 20px -20px;
+        padding: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .modal-action-bar {
+        background-color: $accent-bg-color-alt;
+        color: $accent-fg-color;
+        margin: 20px -20px -20px -20px;
+        padding: 10px 20px;
+
+        button.ifc, button.ifc.ifc-small {
+            color: rgba($accent-fg-color, 0.9);
+            padding: 5px 20px;
+            margin-right: 20px;
+
+            &:active {
+                color: $ifc-button-active-color;
+                padding: 5px 20px 3px 22px;
+            }
+        }
+    }
+}
+
+// Remove scroll on the body when react-modal is open
+.ReactModal__Body--open {
+    overflow: hidden;
+}

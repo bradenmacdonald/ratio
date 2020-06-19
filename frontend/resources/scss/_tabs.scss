@@ -1,0 +1,98 @@
+/* Tab widgets, originally based on Blaze CSS, http://blazecss.com/ (MIT-licensed) */
+
+@mixin tab-color($active-color: $tab-line-color, $position: 'bottom', $depth: false) {
+    $offset: -.2em;
+    $blur: 0;
+    @if $position == 'top' {
+        $offset: 0.2em;
+    }
+    @if $depth {
+        $blur: 0.2em;
+    }
+    box-shadow: 0 $offset $blur 0 $active-color inset;
+}
+
+[role=tablist] {
+
+    display: flex;
+    text-align: center;
+    align-items: flex-end;
+
+    [role=tab] {
+
+        flex: 1 1 0;
+        padding: 1em;
+        margin: 0;
+
+        color: inherit;
+        text-decoration: none;
+
+        // Animation:
+        transition: box-shadow;
+        transition-duration: $animation-duration;
+        transition-timing-function: $animation-easing;
+
+        @include tab-color();
+
+        &.active-tab {
+            @include tab-color($tab-active-line-color);
+            font-weight: bold;
+        }
+
+        .tab-icon {
+            padding-right: 1em;
+            color: $color-dark-grey;
+        }
+    }
+
+
+}
+
+[role=tabpanel] {
+}
+
+.tabview {
+    display: flex;
+    flex-direction: column;
+
+    > [role=tablist] {
+        flex: 0 0 auto;
+    }
+    > [role=tabpanel] {
+        flex: 1 1 auto;
+        will-change: transform; // Makes scrolling of the transactions tab in Chrome buttery smooth
+    }
+
+    &.flip-md {
+        // Styles to responsively invert the tabview (tabs on bottom for mobile)
+        @include media-breakpoint-down(sm) {
+            flex-direction: column-reverse;
+
+            [role=tab] {
+                font-size: 9px;
+                @include tab-color($position: 'top');
+
+                .tab-icon {
+                    display: block;
+                    text-align: center;
+                    font-size: 20px;
+                    padding-right: 0;
+                    padding-bottom: 5px;
+                }
+
+                &.active-tab {
+                    @include tab-color($tab-active-line-color, 'top', true);
+
+                    .tab-icon {
+                        color: inherit;
+                    }
+                }
+            }
+        }
+        @include media-breakpoint-down(xs) {
+            [role=tab] {
+                font-size: 6px;
+            }
+        }
+    }
+}

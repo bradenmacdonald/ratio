@@ -1,0 +1,13 @@
+extends ./base-simple.pug
+
+block append vars
+  - bodyClasses.push('error-occurred')
+
+block content
+  p.error-message
+    i.fa.fa-exclamation-triangle(aria-hidden="true") &nbsp;
+    = message
+
+  if errorDetails
+    pre.error-stack
+      = errorDetails.stack

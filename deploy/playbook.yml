@@ -1,0 +1,21 @@
+---
+# A playbook that deploys a containerized application(s) onto a single Ubuntu 20.04 LTS Virtual Machine
+#
+# You can run this playbook with:
+#    ansible-playbook -i 123.123.123.123, -e "deployment_name=prod" playbook.yml
+- hosts: all
+  remote_user: root
+  vars:
+    deploy_private_dir: "./private/{{deployment_name}}/"
+    common_server_hostname: "ratio-{{deployment_name}}"
+    # Avoid a minor conflict between 'database' and 'app' roles re whether spiped client listens on 127.0.0.1 or docker's 192.168.0.1
+    postgres_secure_ip: "{{ traefik_docker_apps_network_host_ip }}"
+    # Avoid a minor conflict between 'database' and 'app' roles re whether spiped client listens on 127.0.0.1 or docker's 192.168.0.1
+    redis_secure_ip: "{{ traefik_docker_apps_network_host_ip }}"
+  vars_files:
+    - "{{deploy_private_dir}}/vars.yml"
+  roles:
+    - role: b-database
+    - role: b-redis
+    - role: ratio-backend
+    - role: ratio-frontend

@@ -1,0 +1,19 @@
+extends ./base-simple.pug
+
+block append vars
+  - bodyClasses.push('reset-password-form')
+
+block append content
+  p
+    | #{userName}, please enter a new password.
+
+  form.simple-form(action="/reset", method="post")
+    div
+      //- ^ This div is just so the input(type="hidden") doesn't trigger CSS 'input' selectors
+      input.ifc(type="password", placeholder="New Password", aria-label="New Password", name="password", required)
+
+    input(type="hidden", name="code", value=code)
+    input(type="hidden", name="_csrf", value=csrfToken)
+
+    button.ifc
+      | Reset password

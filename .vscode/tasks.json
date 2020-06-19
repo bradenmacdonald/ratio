@@ -1,0 +1,70 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Ratio",
+            "type": "shell",
+            "command": "docker-compose --project-name ratio -f docker-compose.yml up",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Ratio (from images)",
+            "type": "shell",
+            "command": "docker-compose --project-name ratio -f docker-compose-images.yml up",
+            "problemMatcher": []
+        },
+        {
+            "label": "Backend: Open a shell",
+            "type": "shell",
+            "command": "docker-compose --project-name ratio exec backend /bin/bash",
+            "problemMatcher": []
+        },
+        {
+            "label": "Backend: Run DB migrations",
+            "type": "shell",
+            "command": "npm run migrate up",
+            "problemMatcher": []
+        },
+        {
+            "label": "Backend: Run Tests",
+            "type": "shell",
+            "command": "docker-compose --project-name ratio exec backend npm test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Backend: Build Container",
+            "type": "shell",
+            "command": "docker build -t thoughtstuff/ratio-backend:latest .",
+            "problemMatcher": []
+        },
+        {
+            "label": "Frontend: Build static files",
+            "type": "shell",
+            "command": "docker-compose --project-name ratio exec frontend_builder npm run build-public",
+            "problemMatcher": []
+        },
+        {
+            "label": "Frontend: Open a shell",
+            "type": "shell",
+            "command": "docker-compose --project-name ratio exec frontend_builder /bin/bash",
+            "problemMatcher": []
+        },
+        {
+            "label": "Frontend: Run Tests",
+            "type": "shell",
+            "command": "docker-compose --project-name ratio exec frontend_builder npm test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Frontend: Build Container",
+            "type": "shell",
+            "command": "docker build -t thoughtstuff/ratio-frontend:latest .",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "frontend"
+            }
+        }
+    ]
+}

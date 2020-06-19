@@ -1,0 +1,38 @@
+ratio_instance_name: ratio
+ratio_backend_domain: "my.{{ratio_base_domain}}"
+
+# Any defaults we override from the 'b-app' role must be set here AND in meta/main.yml:dependencies
+app_name: "{{ratio_instance_name}}"
+app_image_repo: thoughtstuff/ratio-backend
+# Domain name that the app will ultimately run on (with automatic HTTPS)
+app_domain: "{{ratio_backend_domain}}"
+
+ratio_base_domain: ratiobudget.com
+ratio_app_mode: production
+ratio_system_emails_from: "Ratio <system@{{ ratio_base_domain }}>"
+ratio_app_secret: "{{ lookup('password', deploy_private_dir + 'credentials/app_secret length=50') }}"
+ratio_app_sparkpost_api_key: "{{ lookup('file', deploy_private_dir + 'credentials/sparkpost_api_key') }}"
+ratio_resource_domain: "res.{{ ratio_base_domain }}"
+ratio_resource_path: "/"
+ratio_resource_url: "https://{{ratio_resource_domain}}{{ratio_resource_path}}"
+
+ratio_config_base:
+  app_domain: "{{ratio_backend_domain}}"
+  instance_name: "{{ratio_instance_name}}"
+  resource_url: "{{ ratio_resource_url }}"
+  listen_port: "{{app_port}}"
+  secret_key: "{{ratio_app_secret}}"
+  db_host: '{{app_db_host}}'
+  db_port: "{{app_db_port}}"
+  db_name: "{{app_db_name}}"
+  db_user: "{{app_db_user}}"
+  db_password: "{{app_db_password}}"
+  redis_host: "{{app_redis_host}}"
+  redis_port: "{{app_redis_port}}"
+  redis_password: "{{app_redis_password}}"
+  redis_prefix: "{{app_name}}:"
+  system_emails_from: "{{ratio_system_emails_from}}"
+  sparkpost_api_key: "{{ratio_app_sparkpost_api_key}}"
+
+ratio_config:
+  "{{ {ratio_app_mode: ratio_config_base} }}"

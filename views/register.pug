@@ -1,0 +1,18 @@
+extends ./base-simple.pug
+
+block append vars
+  - bodyClasses.push('register-account')
+
+block append content
+  p
+    | Enter your email address to create your Ratio account.
+
+  form.simple-form(action="/register", method="post")
+    div
+      //- ^ This div is just so the input(type="hidden") doesn't trigger CSS 'input' selectors
+      input.ifc(type="email", placeholder="Email address", aria-label="Email address", name="email", required)
+
+    input(type="hidden", name="_csrf", value=csrfToken)
+
+    button.ifc
+      | Create account

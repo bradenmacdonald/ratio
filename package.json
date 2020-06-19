@@ -1,0 +1,47 @@
+{
+  "name": "ratio-app",
+  "version": "0.0.1",
+  "description": "Powerful budgeting software",
+  "scripts": {
+    "lint": "eslint ./",
+    "test": "NODE_ENV=test mocha --exit tests routes/*-test.js",
+    "pretest": "NODE_ENV=test npm run migrate down && NODE_ENV=test npm run migrate up && npm run lint",
+    "migrate": "node scripts/migrate.js",
+    "start": "node ./app.js",
+    "entrypoint-dev": "npm install && npm start"
+  },
+  "author": "MacDonald Thoughtstuff Inc.",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "~2.4.3",
+    "body-parser": "~1.19.0",
+    "connect-flash": "~0.1.1",
+    "connect-redis": "~4.0.4",
+    "csurf": "~1.11.0",
+    "db-migrate": "~0.11.11",
+    "db-migrate-pg": "~1.2.2",
+    "express": "~4.17.1",
+    "express-session": "~1.17.1",
+    "express-ws": "~4.0.0",
+    "json-rpc-peer": "~0.15.5",
+    "massive": "~6.4.0",
+    "nodemailer": "~6.4.10",
+    "nodemailer-mock-transport": "~1.3.0",
+    "nodemailer-sparkpost-transport": "~2.2.0",
+    "passport": "~0.4.1",
+    "passport-local": "~1.0.0",
+    "prophecy-engine": "~0.3.0",
+    "pug": "~2.0.4",
+    "redis": "3.0.2",
+    "whiskers": "~0.4.0"
+  },
+  "devDependencies": {
+    "eslint": "~7.2.0",
+    "mocha": "~8.0.1",
+    "chai": "~4.2.0",
+    "chai-http": "~4.3.0",
+    "chai-string": "~1.5.0",
+    "jsonrpc-websocket-client": "~0.5.0"
+  }
+}

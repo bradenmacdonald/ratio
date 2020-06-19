@@ -1,0 +1,4 @@
+frontend_environ_dir: "/etc/ratio-frontend"
+frontend_container_name: "ratio_frontend"
+frontend_image_repo: thoughtstuff/ratio-frontend
+frontend_image_tag: latest

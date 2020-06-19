@@ -1,0 +1,73 @@
+# Compose file to test the production container image of Ratio, but running locally
+version: '3'
+services:
+  redis:
+    container_name: ratio.dev.redis
+    image: redis:5-alpine
+    command: >
+     --requirepass devpassword 
+    ports:
+      - 4443:6379
+    networks:
+      - default
+      - ratio_network
+  postgres:
+    container_name: ratio.dev.postgres
+    image: postgres:11-alpine
+    ports:
+      - 4442:5432
+    networks:
+      - default
+      - ratio_network
+    environment:
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_USER: ratio
+      POSTGRES_DB: ratio
+    volumes:
+      - ./scripts/dev-db-container-init.sh:/docker-entrypoint-initdb.d/init-dev-db.sh
+  backend:
+    container_name: ratio.dev.backend
+    image: thoughtstuff/ratio-backend:latest
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - 4444:4444
+    stdin_open: true
+    tty: true
+    networks:
+      - default
+      - ratio_network
+  frontend:
+    container_name: ratio.dev.frontend
+    image: thoughtstuff/ratio-frontend:latest
+    ports:
+      - 4441:80
+    networks:
+      - default
+      - ratio_network
+    labels:
+      - "traefik.docker.network=ratio_network"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:res.localdev.ratiobudget.net"
+      - "traefik.basic.port=80"
+      - "traefik.basic.protocol=http"
+  traefik:
+    container_name: ratio.dev.traefik
+    image: traefik:1.7-alpine
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      - 4440:8080
+    networks:
+      - default
+      - ratio_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/etc/traefik/traefik.toml:ro
+      - ./.dev/localdev.ratiobudget.net+3.pem:/etc/traefik/ratio-self.crt:ro
+      - ./.dev/localdev.ratiobudget.net+3-key.pem:/etc/traefik/ratio-self.key:ro
+
+networks:
+  ratio_network:

@@ -1,0 +1,52 @@
+---
+- name: Create directory for environment files
+  file:
+    path: "{{ app_environ_dir }}"
+    state: directory
+    owner: root
+    mode: 700
+- name: Ensure a file exists to set environment vars
+  file:
+    path: "{{app_environ_file}}"
+    state: touch
+    owner: root
+    mode: 600
+
+# Postgresql Database
+- name: Configure database user for {{app_name}}
+  postgresql_user:
+    name: "{{ app_db_user }}"
+    db: postgres
+    password: "{{ app_db_password }}"
+    encrypted: yes
+    login_host: "{{ app_db_host }}"
+    login_user: "{{ database_postgres_admin_user_name }}"
+    login_password: "{{ database_postgres_admin_password }}"
+    port: "{{ postgres_secure_port }}"
+- name: Configure database for {{app_name}}
+  postgresql_db:
+    name: "{{ app_db_name }}"
+    owner: "{{ app_db_user }}"
+    login_host: "{{ app_db_host }}"
+    login_user: "{{ database_postgres_admin_user_name }}"
+    login_password: "{{ database_postgres_admin_password }}"
+    port: "{{ postgres_secure_port }}"
+- name: Enable pgcrypto extension
+  postgresql_ext:
+    name: pgcrypto
+    db: "{{ app_db_name }}"
+    login_host: "{{ app_db_host }}"
+    login_user: "{{ database_postgres_admin_user_name }}"
+    login_password: "{{ database_postgres_admin_password }}"
+    port: "{{ postgres_secure_port }}"
+
+- name: Install docker-compose file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{app_environ_dir}}/docker-compose.yml"
+    owner: root
+
+- name: Enable the {{app_container_name}} Docker service
+  docker_compose:
+    project_src: "{{app_environ_dir}}"
+    state: present

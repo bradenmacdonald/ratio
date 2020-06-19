@@ -1,0 +1,74 @@
+// Simple layout used by the pages like login, forgot password, error, etc.
+body.simple-layout {
+    #root {
+        width: 20em;
+        max-width: 90vw;
+        margin: 0 auto;
+    }
+
+    header {
+        line-height: 80px;
+        text-align: center;
+        font-size: 50px;
+        padding: 30px 0;
+
+        #influx-logo {
+            display: inline-block;
+            width: 70%;
+            margin-top: 8px;
+        }
+    }
+
+    a {
+        color: $color-black;
+    }
+
+    p {
+        text-align: center;
+        margin-bottom: 1em;
+    }
+
+    .error-message {
+        font-weight: bold;
+        color: #de0c0c;
+    }
+
+    .info-message {
+        font-weight: bold;
+        color: $color2-darker;
+    }
+
+    .error-stack { // error pages only
+        margin: 0 auto;
+        max-width: 95%;
+    }
+}
+
+form.simple-form {
+    // A simple form with one or two text fields and a button
+    text-align: center;
+
+    input.ifc {
+        display: block;
+        border-bottom-style: none;
+        text-align: center;
+
+        &:first-of-type {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        &:last-of-type {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom-style: solid;
+        }
+
+        &:focus + input {
+            border-top-color: $influx-green-color;
+        }
+    }
+
+    button {
+        margin: 15px auto;
+    }
+}

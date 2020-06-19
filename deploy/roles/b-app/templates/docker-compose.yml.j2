@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  {{app_container_name}}:
+    image: {{ app_image_repo }}:{{ app_image_tag }}
+    restart: always
+    expose:
+      - {{app_port}}
+    networks:
+      - {{ traefik_docker_apps_network_name }}
+      - default
+    container_name: {{app_container_name}}
+    env_file: 
+      - {{ app_environ_file }}
+    labels:
+      - "traefik.docker.network={{ traefik_docker_apps_network_name }}"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:{{app_domain}}"
+      - "traefik.basic.port={{app_port}}"
+      - "traefik.basic.protocol=http"
+
+networks:
+  {{traefik_docker_apps_network_name}}:
+    external: true

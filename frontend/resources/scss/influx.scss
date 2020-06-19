@@ -1,0 +1,169 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Variables:
+
+// Color definitions:
+$influx-green-color: #6aa84f;
+$ratio-teal-color: #22bdaf;
+
+$color1: $influx-green-color;
+$color1-lighter: lighten($color1, 15%);
+$color1-lightest: lighten($color1, 30%);
+$color1-darker: darken($color1, 15%);
+$color1-darkest: darken($color1, 20%);
+
+$color2: #3c7f6e;
+$color2-lighter: lighten($color2, 15%);
+$color2-lightest: lighten($color2, 30%);
+$color2-darker: darken($color2, 15%);
+$color2-darkest: darken($color2, 20%);
+
+$color3: #c3825c;
+$color3-lighter: lighten($color3, 15%);
+$color3-lightest: lighten($color3, 30%);
+$color3-darker: darken($color3, 15%);
+$color3-darkest: darken($color3, 20%);
+
+$color4: #b75667;
+$color4-lighter: lighten($color4, 15%);
+$color4-lightest: lighten($color4, 30%);
+$color4-darker: darken($color4, 15%);
+$color4-darkest: darken($color4, 20%);
+
+
+$color-tint: 9;
+$color-black: #111111 !default;
+$color-grey: lighten($color-black, 70);
+$color-lighter-grey: lighten($color-grey, $color-tint * 2);
+$color-dark-grey: darken($color-grey, $color-tint);
+$color-grey-text: #585858; // The lightest grey color acceptable for small text on a white background per WCAG AAA standards.
+
+// Color choices:
+$accent-bg-color: #f2f2ea; // beige
+$accent-bg-color-alt: #eaeae2; // bit darker, bit greyer
+$accent-fg-color: #57443d;
+$tab-line-color: $color-lighter-grey;
+$tab-active-line-color: $color-dark-grey;
+
+$primary-font: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+$animation-duration: 0.5s;
+$animation-easing: ease;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Re-usable mixins:
+
+// For screen readers only:
+@mixin sr {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px; width: 1px;
+    margin: -1px; padding: 0; border: 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Dependencies and mixins:
+@import "./deps/normalize";
+@import "./responsive";
+@import "./controls";
+@import "./form";
+@import "./grid";
+@import "./modal";
+@import "./tabs";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Global styles:
+html {
+    box-sizing: border-box;
+    font-family: $primary-font; // Override normalize.css rule
+    font-weight: 400;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: $primary-font; // Override normalize.css rule
+}
+
+body {
+    color: #111;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+
+    background: linear-gradient(to right, #cedce7 0%,#596a72 35%,#596a72 35%,#596a72 65%,#cedce7 100%);
+}
+
+body > #meta {
+    $max-app-width: 1900px;
+
+    background-color: white;
+    margin: 0 auto;
+    max-width: $max-app-width; // Don't design for screens wider than this
+    height: 100%;
+    @media (min-width: $max-app-width + 2px) {
+        border-left: 1px solid #888;
+        border-right: 1px solid #888;
+    }
+}
+
+p {
+    margin: 0;
+    padding: 0.5em 0;
+}
+
+td, th {
+    padding-right: 1em;
+    vertical-align: top;
+}
+
+th {
+    text-align: left;
+    font-weight: normal;
+    color: $color-dark-grey;
+}
+
+.sr { 
+    @include sr;
+}
+
+datalist {
+    display: none; // For those browsers that don't know what a <datalist> is.
+}
+
+.menu-popup-root {
+    // Anchor for any control that has a popup menu, e.g. a textbox with autocomplete
+    display: inline-block;
+    position: relative;
+
+    .menu-popup {
+        background-color: white;
+        border: 1px solid $color-grey;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        z-index: 200;
+
+        &.menu-popup-closed {
+            display: none;
+        }
+
+        li {
+            list-style: none;
+            margin: 0;
+
+            button, a {
+                display: block;
+                width: 100%;
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Styles for specific parts of the app:
+
+@import "./budget";
+@import "./login";

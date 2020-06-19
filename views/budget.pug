@@ -1,0 +1,26 @@
+extends ./base.pug
+
+block vars
+  - bodyClasses.push('budget-app')
+
+block body
+  //- Pre-rendered UI placeholders - these will all get replaced:
+  #app.budget-layout
+    header.appHeader
+      .budget-title
+        | &nbsp;
+    #budget-view
+      #summary-panel(role="region", aria-label="Summary")
+        .budget-summary
+      #budget-tabview.tabview.flip-md
+        div(role="tablist")
+        div(role="tabpanel")
+          br
+          br
+          center.loading-msg
+            i.fa.fa-spinner.fa-pulse(aria-hidden="true")
+            br
+            br
+            | Loading...
+
+  script(src=`${configPublic.resUrl}/budget.js`)

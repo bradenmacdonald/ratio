@@ -1,0 +1,18 @@
+extends ./base-simple.pug
+
+block append vars
+  - bodyClasses.push('forgot-password-form')
+
+block append content
+  p
+    | Enter your email address to get a password reset link.
+
+  form.simple-form(action="/forgot", method="post")
+    div
+      //- ^ This div is just so the input(type="hidden") doesn't trigger CSS 'input' selectors
+      input.ifc(type="email", placeholder="Email address", aria-label="Email address", name="email", required)
+
+    input(type="hidden", name="_csrf", value=csrfToken)
+
+    button.ifc
+      | Get reset link

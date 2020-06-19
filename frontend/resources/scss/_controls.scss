@@ -1,0 +1,224 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Controls (ifc means "InFLux Control")
+
+.ifc {
+    display: inline-block;
+    &:not(:disabled):hover {
+        box-shadow: inset 0 0 2px lighten($influx-green-color, 20%);
+    }
+    &:focus {
+        border-color: $influx-green-color;
+        box-shadow: inset 0 0 2px lighten($influx-green-color, 20%);
+        outline: 0;
+    }
+}
+
+input.ifc, select.ifc {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    line-height: 25px;
+    padding-left: 4px;
+}
+
+input[type=date].ifc {
+    &::-webkit-inner-spin-button, &::-webkit-clear-button {
+        display: none;
+    }
+    &::-webkit-calendar-picker-indicator {
+        color: $influx-green-color;
+        background-color: $color-lighter-grey;
+        box-shadow: inset 0 0 2px lighten($influx-green-color, 20%);
+        padding: 8px 0.5em;
+    }
+}
+
+.ifc.ifc-amount {
+    width: "100%";
+    text-align: "right";
+}
+
+$ifc-button-active-color: white;
+$ifc-button-active-bg-color: $influx-green-color;
+
+button.ifc {
+    text-align: center;
+    background-color: transparent;
+    border-radius: 10px;
+    border: 1px solid rgba($accent-fg-color, 0.2);
+    padding: 10px;
+    white-space: nowrap;
+
+    &.ifc-p {
+        border-color: transparent;
+    }
+
+    &:not(:disabled):hover {
+        background-color: $color-lighter-grey;
+    }
+
+    &:not(:disabled):active {
+        background-color: $ifc-button-active-bg-color;
+        color: $ifc-button-active-color;
+        box-shadow: inset 2px 2px 5px darken($influx-green-color, 20%);
+        padding: 11px 9px 9px 11px;
+    }
+    &.ifc-small {
+        padding: 4px;
+        &:not(:disabled):active {
+            padding: 5px 3px 3px 5px;
+        }
+    }
+
+    &.ifc-default {
+        border-color: rgba($accent-fg-color, 0.5);
+        font-weight: bold;
+    }
+
+    &:disabled {
+        color: #ccc!important;
+        text-shadow: -1px -1px rgba(255,255,255,0.6);
+        border-color: rgba($accent-fg-color, 0.1);
+    }
+
+    // Green "Add" icon on "Add Blah" buttons
+    &:not(:active):not(:disabled) .fa.fa-plus-circle {
+        color: $influx-green-color;
+    }
+}
+
+// Radio button group
+
+.ifc-radio-group {
+    margin-top: 0;
+    padding-left: 0;
+    li {
+        list-style-type: none;
+        line-height: 22px;
+
+        input[type=radio] {
+            @include sr;
+        }
+
+        label {
+            border: 1px solid transparent;
+            padding-right: 2px;
+        }
+
+        label::before {
+            display: inline-block;
+            position: relative;
+            top: 2px;
+            content: "";
+            font-size: 1px;
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+
+            background-color: transparent;
+            border: 2px solid $color-dark-grey;
+            border-radius: 100%;
+        }
+
+        &:hover label::before {
+            box-shadow: inset 0 0 2px 2px lighten($influx-green-color, 20%);
+        }
+
+        input[type=radio]:checked + label::before {
+            background-color: $influx-green-color;
+            box-shadow: inset 1px 1px 2px darken($influx-green-color, 20%);
+            border-color: black;
+        }
+
+        input[type=radio]:focus + label {
+            border-color: $color-grey;
+            box-shadow: inset 0 0 2px lighten($influx-green-color, 20%);
+            outline: 0;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Progressive controls - look like a displayed value and not a form element until you interact with it.
+
+@mixin progressiveControlStyling() {
+    background-color: transparent;
+    border: 1px dotted transparent;
+    border-bottom-color: $color-lighter-grey;
+
+    &:focus {
+        border: 1px solid $color-grey;
+    }
+}
+
+input[type=text].ifc.ifc-p {
+    @include progressiveControlStyling();
+}
+
+input[type=date].ifc.ifc-p {
+    @include progressiveControlStyling();
+}
+
+input[type=number].ifc.ifc-p {
+    // Hide the browser's default styles:
+    appearance: none;
+    // And apply our own:
+    @include progressiveControlStyling();
+    &:focus {
+        appearance: textfield;
+    }
+    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+select.ifc.ifc-p {
+    // Hide the browser's default styles:
+    appearance: none;
+    // And apply our own:
+    @include progressiveControlStyling();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Drag controls
+
+.inline-drag-sort-handle {
+    color: $color-grey;
+    display: inline-block;
+    padding: 1px 3px;
+}
+
+.drag-sortable-dragging {
+    display: none;
+}
+
+tr.drag-sort-placeholder td {
+    border: 3px dotted $color-grey;
+    height: 1.5em;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table fixes for ifc-small in a td
+td.if-action-buttons {
+    line-height: 29px;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Starting a file upload via drag-and-drop:
+
+.hiddenFileUpload {
+    display: none;
+}
+
+.drop-to-upload-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    text-align: center;
+    box-shadow: inset 0 0 20px $color2;
+}

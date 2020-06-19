@@ -1,0 +1,339 @@
+html, body {
+    // These rules are necessary to provide consistency in mobile browsers that have viewports which change in size during scrolling
+    height: 100%;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.budget-app {
+    #app {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    header.appHeader {
+        flex: 0 0 auto;
+        display: flex;
+
+        background-color: $ratio-teal-color;
+        color: white;
+
+        $line-height: 40px;
+        line-height: $line-height;
+
+        .influx-logo-link {
+            flex: 1 1 20%;
+            img {
+                display: inline-block;
+                height: calc(#{$line-height} - 6px);
+                margin-top: 3px;
+                margin-bottom: 3px;
+                vertical-align: middle;
+            }
+            @include media-breakpoint-down(xs) {
+                text-align: center;
+            }
+            .logo-text {
+                @include media-breakpoint-down(xs) {
+                    @include sr;
+                }
+                @include media-breakpoint-up(sm) {
+                    padding-left: $grid-padding;
+                }
+            }
+        }
+
+        .budget-title {
+            flex: 1 1 60%;
+            margin-right: 48px; // Matches the width of the logo on the left
+            text-align: center;
+            font-weight: bolder;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            @include media-breakpoint-up(sm) {
+                margin-right: 0;
+            }
+        }
+
+        .nav-holder {
+            flex: 1 1 20%;
+            display: none;
+            @include media-breakpoint-up(sm) {
+                display: block;
+            }
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: inherit;
+
+            &:not(:disabled):hover {
+                background-color: #969696;
+                color: white;
+            }
+        }
+
+        a, .budget-title {
+            padding: 4px 7px;
+            white-space: nowrap;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+
+            a {
+                flex: 0;
+                padding-left: $grid-padding;
+                padding-right: $grid-padding;
+            }
+        }
+    }
+
+    #budget-view {
+        flex: 1 1 auto;
+        display: flex;
+        overflow-y: hidden;
+    }
+
+    #summary-panel {
+        display: none;
+        flex: 0 0 auto;
+        @include media-breakpoint-up(md) {
+            display: block;
+            background-color: $accent-bg-color-alt;
+            width: 200px;
+            overflow-y: auto;
+        }
+    }
+
+    #budget-tabview {
+        flex: 1 1 auto;
+        max-width: 100%;
+        position: relative; // This is needed only to anchor/size #txn-import-drop-message correctly (e.g. when the transaction list is scrolled)
+
+        [role=tab] {
+            white-space: nowrap;
+        }
+        > [role=tabpanel] {
+            overflow: auto;
+        }
+        @include media-breakpoint-only(md) {
+            [role=tab] .tab-icon { display: none; }
+        }
+    }
+
+    // The summary panel is on the left on desktop but becomes a tab on mobile
+    #budget-tab-summary {
+        @include media-breakpoint-up(md) {
+            display: none;
+        }
+    }
+
+    // Styles for the content of the budget summary:
+    .budget-summary {
+        padding: 0 $grid-padding;
+
+        $summary-item-vertical-padding: 1.0em;
+
+        section {
+            & + section {
+                border-top: 2px solid rgba(0,0,0,0.3);
+                margin-top: $summary-item-vertical-padding;
+                padding-top: $summary-item-vertical-padding;
+            }
+
+            &::after {
+                clear: left;
+                content: ' ';
+                font-size: 0;
+                display: block;
+            }
+        }
+
+        .summary-item {
+            float: left;
+            min-width: 50%;
+
+            display: flex;
+            flex-direction: column-reverse;
+            max-width: 300px;
+            margin: $summary-item-vertical-padding 0;
+        }
+        .summary-label {
+            font-size: 14px;
+        }
+        .summary-value {
+            font-size: 24px;
+        }
+        hr {
+            clear: left;
+        }
+    }
+
+    // Budget tab
+    #budget-tab-budget-content {
+        h1 {
+            margin-bottom: 0;
+            font-size: 20px;
+        }
+
+        #budget-header-category {
+            width: 10em;
+        }
+
+        td:first-child, th:first-child {
+            padding-left: $grid-padding;
+        }
+
+        .acct-status-under {
+            color: $color1-darkest;
+        }
+        .acct-status-over {
+            font-weight: bold;
+            color: $color4-darkest;
+        }
+        .acct-status-neutral {
+            color: $color-grey-text;
+        }
+
+        #transactions-tab-new-category-buttons {
+            padding-top: $grid-padding;
+            padding-left: $grid-padding;
+        }
+    }
+
+    .category-editor {
+        .category-rule-list {
+            padding-left: 5px;
+            li {
+                list-style-type: none;
+            }
+            .ifc {
+                width: 100px;
+            }
+            .cat-rule-repeat-n {
+                width: 2em;
+                text-align: center;
+            }
+            .cat-rule-period {
+                width: auto;
+            }
+            input[type=date] {
+                width: auto;
+            }
+        }
+    }
+
+    // Transactions tab
+    #budget-tab-transactions-content {
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        thead {
+            background: $color-lighter-grey;
+            border-top: 2px solid $tab-active-line-color;
+            border-bottom: 2px solid $tab-active-line-color;
+
+            th {
+                padding: 2px 0;
+            }
+        }
+        td:first-child, th:first-child {
+            padding-left: $grid-padding;
+        }
+        #txn-header-date {
+            width: 8em;
+        }
+        #txn-header-amount {
+            width: 7em;
+        }
+        #txn-header-category {
+            width: 200px;
+        }
+        #txn-header-actions {
+            width: 100px;
+        }
+        tr > td:first-child {
+            input[type=date] {
+                // For the date fields in the first column, force them to be smaller:
+                width: 8em;
+                // Hide the huge calendar icon until the user hovers over, and then make it much smaller so it doesn't block the date text:
+                &::-webkit-calendar-picker-indicator{
+                    display: none;
+                }
+                &:hover::-webkit-calendar-picker-indicator{
+                    display: block;
+                    margin: 0;
+                    padding: 2px;
+                    font-size: inherit;
+                    //line-height: 10px;
+                }
+            }
+        }
+
+        // Style the transaction fields:
+        .ifc-amount {
+            text-align: right;
+            &.ifc-amount-positive { color: $color1-darkest; }
+            &.ifc-amount-negative { color: $color4-darkest; }
+        }
+
+        // Alternate row coloring:
+        tr.txn {
+            &:nth-child(odd) { background-color: $accent-bg-color; }
+            &:nth-child(even) { background-color: white; }
+        }
+
+        // Ability to flag/star/highlight transactions:
+        tr.txn-star-0 .txn-star-button:not(hover) { color: $color-grey; }
+        tr.txn-star-1 td { background-color: rgba(255, 255, 0, 0.7); }
+        tr.txn-star-2 td { background-color: $color4-lightest; }
+
+        tr.add-row-label td {
+            // This is one of the text labels above or below the "Add transaction" widget.
+            color: $color-grey;
+            font-size: 12px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            &::before { content: "▲"; padding-right: 0.5em; }
+            &::after { content: "▲"; padding-left: 0.5em; }
+        }
+        tr.add-row-label.no-arrows td {
+            &::before, &::after { content: ""; }
+        }
+        tr.add-row-label.down-arrows td {
+            &::before, &::after { content: "▼"; }
+        }
+        .add-transaction {
+            td {
+                background-color: $color1-lightest;
+                border-top: 1px solid $color1-darker;
+                border-bottom: 1px solid $color1-darker;
+                button {
+                    &.add-button-default {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+        .add-transaction-button-row {
+            button {
+                width: 100%;
+            }
+        }
+
+        // Appearance of split transactions:
+        .txn-detail-row {
+            display: flex;
+
+            .ifc-amount { max-width: 6em; }
+        }
+    }
+}

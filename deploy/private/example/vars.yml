@@ -1,0 +1,7 @@
+---
+# Set variables specific to your deployment here.
+# ratio_base_domain: ratiobudget.com
+# ratio_app_mode: production
+# ratio_system_emails_from: "Ratio <support@ratiobudget.com>"
+# traefik_default_domain: "{{ratio_base_domain}}"
+# traefik_acme_email: support@ratiobudget.com

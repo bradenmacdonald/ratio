@@ -1,0 +1,6 @@
+extends ./base-simple.pug
+
+block append vars
+  - bodyClasses.push('messages-only')
+
+//- This page has no content, but the template it extends will display any flash info/error messages

@@ -1,0 +1,10 @@
+DROP TABLE email_validated_action;
+DROP FUNCTION fn_check_email_doesnt_exist();
+DROP VIEW budgets;
+DROP TABLE budget_changelog;
+DROP TABLE budget_data;
+DROP TABLE budget_metadata;
+DROP FUNCTION user_by_email(text);
+DROP INDEX users_email_lower_idx;
+DROP TABLE users;
+DROP FUNCTION fn_prevent_update();

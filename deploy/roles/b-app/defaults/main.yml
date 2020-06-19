@@ -1,0 +1,22 @@
+app_name: my_app
+app_container_name: "{{app_name}}"
+# Repository on Docker Hub or some other Docker registry
+app_image_repo: myorg/repository
+# What tag/version of the app to deploy
+app_image_tag: latest
+# Domain name that the app will ultimately run on (with automatic HTTPS)
+app_domain: myapp.example.com
+# What port the container exposes its HTTP service on
+app_port: 8000
+app_environ_dir: "/etc/{{app_name}}"
+app_environ_file: "{{app_environ_dir}}/{{app_name}}.env"
+# Credentials for connecting to PostgreSQL:
+app_db_host: "{{traefik_docker_apps_network_host_ip}}"  # In order to be accessible to docker containers, spiped for the DB listens on this IP instead of 127.0.0.1
+app_db_port: "{{postgres_secure_port}}"
+app_db_name: "{{app_name}}"
+app_db_user: "{{app_name}}"
+app_db_password: "{{ lookup('password', deploy_private_dir + 'credentials/app_pgpassword length=15') }}"
+# Credentials for connecting to Redis:
+app_redis_host: "{{ traefik_docker_apps_network_host_ip }}"
+app_redis_port: "{{redis_secure_port}}"
+app_redis_password: "{{redis_password}}"

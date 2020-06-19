@@ -1,0 +1,7 @@
+Thanks for signing up for Ratio!
+
+To finish creating your account, please use this link:
+
+{configPublic.appUrl}/register/{validationCode}
+
+If you did not request this, you can ignore this message.

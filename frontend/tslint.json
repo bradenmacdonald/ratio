@@ -1,0 +1,29 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "arrow-parens": false,
+        "class-name": false,
+        "quotemark": false,
+        "interface-name": false,
+        "max-line-length": false,
+        "member-ordering": false,
+        "no-consecutive-blank-lines": false,
+        "no-console": false,
+        "no-empty": false,
+        "no-empty-interface": false,
+        "object-literal-key-quotes": [true, "as-needed"],
+        "object-literal-sort-keys": false,
+        "trailing-comma": [true, {
+            "multiline": {
+                "arrays": "always",
+                "objects": "always",
+                "functions": "ignore",
+                "imports": "always",
+                "exports": "always",
+                "typeLiterals": "always"
+            },
+            "singleline": "ignore"
+        }],
+        "variable-name": false
+    }
+}

@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  {{frontend_container_name}}:
+    image: {{frontend_image_repo}}:{{ frontend_image_tag }}
+    restart: always
+    networks:
+      - {{ traefik_docker_apps_network_name }}
+      - default
+    container_name: {{frontend_container_name}}
+    labels:
+      - "traefik.docker.network={{ traefik_docker_apps_network_name }}"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:{{ratio_resource_domain}}"
+      - "traefik.basic.port=80"
+      - "traefik.basic.protocol=http"
+
+networks:
+  {{traefik_docker_apps_network_name}}:
+    external: true

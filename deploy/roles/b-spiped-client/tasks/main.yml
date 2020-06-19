@@ -1,0 +1,11 @@
+---
+- name: Install {{spiped_servicename}} spiped client service
+  template:
+    src: spiped-client-systemd.service
+    dest: /lib/systemd/system/spiped-{{spiped_servicename}}-client.service
+- name: Start {{spiped_servicename}} spiped client service
+  systemd:
+    name: spiped-{{spiped_servicename}}-client
+    enabled: true
+    state: started
+    daemon_reload: true

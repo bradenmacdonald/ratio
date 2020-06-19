@@ -1,0 +1,63 @@
+################################################################
+# Entry Points Global Configuration
+################################################################
+defaultEntryPoints = ["https", "http"]
+
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+    [entryPoints.http.redirect]
+      entryPoint = "https"
+  [entryPoints.https]
+    address = ":443"
+  [entryPoints.https.tls]
+
+################################################################
+# API and dashboard configuration
+################################################################
+[api]
+################################################################
+# Docker configuration backend
+################################################################
+[docker]
+domain = "docker.local"
+watch = true
+exposedByDefault = false
+
+################################################################
+# Also enable manual configured backends/frontends in this file
+################################################################
+[file]
+
+################################################################
+# Manually configured backends
+################################################################
+[backends]
+
+  [backends.ratio_app]
+    [backends.ratio_app.servers]
+      [backends.ratio_app.servers.server0]
+        url = "http://backend:4444"
+        weight = 1
+
+################################################################
+# Manually configured frontends
+################################################################
+[frontends]
+
+  [frontends.ratio_app]
+    entryPoints = ["http", "https"]
+    backend = "ratio_app"
+    passHostHeader = true
+    [frontends.ratio_app.routes]
+      [frontends.ratio_app.routes.route0]
+        rule = "Host:my.localdev.ratiobudget.net"
+
+################################################################
+# Manually configured TLS certificates
+################################################################
+[[tls]]
+  entryPoints = ["https"]
+  [tls.certificate]
+    certFile = "/etc/traefik/ratio-self.crt"
+    keyFile = "/etc/traefik/ratio-self.key"

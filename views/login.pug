@@ -1,0 +1,34 @@
+extends ./base-simple.pug
+
+block append vars
+  - bodyClasses.push('user-login-form')
+
+block content
+  p.login-message
+    | Please login.
+
+  form.simple-form(action="/login", method="post")
+    div
+      //- ^ This div is just so the input(type="hidden") doesn't trigger CSS 'input' selectors
+      input.ifc(type="email", placeholder="Email address", aria-label="Email address", name="email")
+      input.ifc(type="password", placeholder="Password", aria-label="Password", name="password")
+    
+    if nextUrl
+      input(type="hidden", name="next", value=nextUrl)
+
+    input(type="hidden", name="_csrf", value=csrfToken)
+
+    button.ifc
+      | Login
+      span(aria-hidden="true")
+        | &nbsp; ➜
+
+    br
+    br
+    p
+      a(href="/register")
+        strong
+          | Create an account
+      | &nbsp; | &nbsp;
+      a(href="/forgot")
+        | Forgot password
